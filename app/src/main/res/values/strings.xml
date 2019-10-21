@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QTicTacToe</string>
+    <string name="singleplayer">Singleplayer</string>
+    <string name="multiplayer">Multiplayer</string>
 </resources>
