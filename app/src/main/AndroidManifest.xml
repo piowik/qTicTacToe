@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GameActivity"></activity>
+        <activity android:name=".MultiplayerGameActivity"></activity>
         <activity android:name=".NewMultiplayerGameActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>

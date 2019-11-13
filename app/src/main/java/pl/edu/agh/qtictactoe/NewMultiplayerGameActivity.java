@@ -1,5 +1,6 @@
 package pl.edu.agh.qtictactoe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -21,12 +22,23 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonHost)
     public void hostClicked() {
-
+        // TODO: start server
+        new GameServer(() -> {
+            Intent intent = new Intent(getApplicationContext(), MultiplayerGameActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("ip", "localhost");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
     }
 
     @OnClick(R.id.buttonJoin)
     public void joinClicked() {
-
+        Intent intent = new Intent(this, MultiplayerGameActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("ip",textViewIp.getText().toString());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
