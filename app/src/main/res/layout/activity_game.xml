@@ -19,78 +19,159 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".GameActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:padding="8dp"
-            android:id="@+id/recyclerView1"
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout1"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            android:layout_columnWeight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView3"
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout2"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            android:layout_columnWeight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView5"
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout3"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            android:layout_columnWeight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView6"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView7"
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout4"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            android:layout_columnWeight="1">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView8"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView9"
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout5"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@drawable/square_bg" />
+            android:layout_columnWeight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
+
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout6"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
+
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout7"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
+
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout8"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
+
+        <pl.edu.agh.qtictactoe.ClickableFrameLayout
+            android:id="@+id/ClickableFrameLayout9"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="8dp"
+                android:id="@+id/recyclerView9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/square_bg" />
+        </pl.edu.agh.qtictactoe.ClickableFrameLayout>
+
 
     </GridLayout>
 

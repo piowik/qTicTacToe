@@ -1,14 +1,12 @@
 package pl.edu.agh.qtictactoe;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.esotericsoftware.kryonet.Client;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +16,6 @@ import butterknife.ButterKnife;
 import pl.edu.agh.qtictactoe.adapter.FieldAdapter;
 
 public class GameActivity extends AppCompatActivity {
-    private Client client;
 
     @BindView(R.id.recyclerView1)
     RecyclerView recyclerView1;
@@ -59,10 +56,21 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        findViewById(R.id.ClickableFrameLayout1).setOnClickListener(e -> {
+            Log.i("tag", "onClickRV1: ");
+            itemsList1.set(1, 1);
+        });
+
         ButterKnife.bind(this);
         recyclerViewsList = Arrays.asList(recyclerView1, recyclerView2, recyclerView3, recyclerView4, recyclerView5, recyclerView6, recyclerView7, recyclerView8, recyclerView9);
         init();
     }
+//
+//    @OnClick(R.id.frameLayout1)
+//    public void onClickRV1() {
+//        Log.i("tag", "onClickRV1: ");
+//        itemsList1.set(1, 1);
+//    }
 
     private void init() {
         for (int i = 0; i < 9; i++) {
