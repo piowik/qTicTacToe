@@ -1,65 +1,79 @@
 package pl.edu.agh.qtictactoe;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.GridLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import pl.edu.agh.qtictactoe.adapter.FieldAdapter;
+
 public class GameActivity extends AppCompatActivity {
+    @BindView(R.id.recyclerView1)
+    RecyclerView recyclerView1;
+    @BindView(R.id.recyclerView2)
+    RecyclerView recyclerView2;
+    @BindView(R.id.recyclerView3)
+    RecyclerView recyclerView3;
+    @BindView(R.id.recyclerView4)
+    RecyclerView recyclerView4;
+    @BindView(R.id.recyclerView5)
+    RecyclerView recyclerView5;
+    @BindView(R.id.recyclerView6)
+    RecyclerView recyclerView6;
+    @BindView(R.id.recyclerView7)
+    RecyclerView recyclerView7;
+    @BindView(R.id.recyclerView8)
+    RecyclerView recyclerView8;
+    @BindView(R.id.recyclerView9)
+    RecyclerView recyclerView9;
+
+    List<Integer> itemsList1 = new ArrayList<>();
+    List<Integer> itemsList2 = new ArrayList<>();
+    List<Integer> itemsList3 = new ArrayList<>();
+    List<Integer> itemsList4 = new ArrayList<>();
+    List<Integer> itemsList5 = new ArrayList<>();
+    List<Integer> itemsList6 = new ArrayList<>();
+    List<Integer> itemsList7 = new ArrayList<>();
+    List<Integer> itemsList8 = new ArrayList<>();
+    List<Integer> itemsList9 = new ArrayList<>();
+
+    List<RecyclerView> recyclerViewsList;
+    List<FieldAdapter> adaptersList = new ArrayList<>();
+    List<List<Integer>> itemsList = Arrays.asList(itemsList1, itemsList2, itemsList3, itemsList4, itemsList5, itemsList6, itemsList7, itemsList8, itemsList9);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        GridLayout gridLayout = findViewById(R.id.gameGridLayout);
-        List<List<TextView>> board = createGameBoard(gridLayout);
-        board.forEach(e -> e.forEach(v -> System.out.println(v.getId())));
+        ButterKnife.bind(this);
+        recyclerViewsList = Arrays.asList(recyclerView1, recyclerView2, recyclerView3, recyclerView4, recyclerView5, recyclerView6, recyclerView7, recyclerView8, recyclerView9);
+        init();
 
     }
 
-    private List<List<TextView>> createGameBoard(GridLayout gridLayout) {
-        List<List<TextView>> board = new ArrayList<>();
-
+    private void init() {
         for (int i = 0; i < 9; i++) {
-            List<TextView> row = new ArrayList<>();
+            List<Integer> list = itemsList.get(i);
+            RecyclerView recyclerView = recyclerViewsList.get(i);
+
             for (int j = 0; j < 9; j++) {
-                TextView textView = createTextView(gridLayout, i, j);
-                row.add(textView);
+                list.add(j);
             }
-            board.add(row);
+            FieldAdapter adapter = new FieldAdapter(list);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
+            recyclerView.setLayoutManager(layoutManager);
+            adaptersList.add(adapter);
         }
-        return board;
-    }
-
-    private TextView createTextView(GridLayout gridLayout, int row, int column) {
-        TextView textView = new TextView(this.getApplicationContext());
-        textView.setHeight(0);
-        textView.setWidth(0);
-        textView.setId(10 * row + column);
-        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        textView.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        textView.setText("X");
-
-        Drawable backgroundColor =
-                AppCompatResources.getDrawable(getApplicationContext(), R.color.colorPrimaryDark);
-        textView.setBackground(backgroundColor);
-        textView.setTextColor(Color.WHITE);
-        textView.setWidth(gridLayout.getWidth() / 9);
-        textView.setHeight(gridLayout.getHeight() / 9);
-
-        gridLayout.addView(textView, new GridLayout.LayoutParams(
-                GridLayout.spec(row, GridLayout.CENTER),
-                GridLayout.spec(column, GridLayout.CENTER)));
-
-        return textView;
     }
 }
