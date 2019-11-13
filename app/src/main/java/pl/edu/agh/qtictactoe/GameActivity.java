@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esotericsoftware.kryonet.Client;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +18,8 @@ import butterknife.ButterKnife;
 import pl.edu.agh.qtictactoe.adapter.FieldAdapter;
 
 public class GameActivity extends AppCompatActivity {
+    private Client client;
+
     @BindView(R.id.recyclerView1)
     RecyclerView recyclerView1;
     @BindView(R.id.recyclerView2)
@@ -57,6 +62,15 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         recyclerViewsList = Arrays.asList(recyclerView1, recyclerView2, recyclerView3, recyclerView4, recyclerView5, recyclerView6, recyclerView7, recyclerView8, recyclerView9);
         init();
+
+        client = new Client();
+        client.start();
+        try {
+            client.connect(5000, "192.168.0.4", 54555, 54777);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
