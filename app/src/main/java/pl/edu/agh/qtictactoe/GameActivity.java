@@ -66,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
             RecyclerView recyclerView = recyclerViewsList.get(i);
 
             for (int j = 0; j < 9; j++) {
-                list.add(j);
+                list.add(0);
             }
             FieldAdapter adapter = new FieldAdapter(list);
             recyclerView.setAdapter(adapter);
