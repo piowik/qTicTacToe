@@ -9,6 +9,7 @@ import java.util.List;
 
 import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
+import pl.edu.agh.qtictactoe.model.Winner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -117,4 +118,60 @@ public class GameLogicTest {
         assertEquals(expectedRemainigMove.getCell1(), actualRemainigMove.getCell1());
         assertEquals(expectedRemainigMove.getCell2(), actualRemainigMove.getCell2());
     }
+
+    private GameLogic setUpGameLogicForCheckingWinner(List<Integer> x, List<Integer> o) {
+        GameState gameState = new GameState();
+        gameState.setSelectedX(x);
+        gameState.setSelectedO(o);
+        return new GameLogic(gameState);
+    }
+
+    @Test
+    public void testWhoWinsDraw() {
+        List<Integer> xList = Arrays.asList(1, 2, 3);
+        List<Integer> oList = Arrays.asList(4, 5, 6);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("Draw", Winner.DRAW, logic.whoWins());
+    }
+
+    @Test
+    public void testWhoWinsNobody() {
+        List<Integer> xList = Arrays.asList(1, 2);
+        List<Integer> oList = Arrays.asList(3, 4);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("Nobody", Winner.NOBODY, logic.whoWins());
+    }
+
+    @Test
+    public void testWhoWinsHorizontally() {
+        List<Integer> xList = Arrays.asList(1, 2, 3);
+        List<Integer> oList = Arrays.asList(3, 4);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("X wins", Winner.X_WINS, logic.whoWins());
+    }
+
+    @Test
+    public void testWhoWinsVertically() {
+        List<Integer> xList = Arrays.asList(2, 5, 8);
+        List<Integer> oList = Arrays.asList(3, 4, 9);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("X wins", Winner.X_WINS, logic.whoWins());
+    }
+
+    @Test
+    public void testWhoWinsCross1() {
+        List<Integer> xList = Arrays.asList(1, 5, 9, 8);
+        List<Integer> oList = Arrays.asList(3, 4, 2);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("X wins", Winner.X_WINS, logic.whoWins());
+    }
+
+    @Test
+    public void testWhoWinsCross2() {
+        List<Integer> xList = Arrays.asList(3, 1, 5, 9);
+        List<Integer> oList = Arrays.asList(3, 4, 7);
+        GameLogic logic = setUpGameLogicForCheckingWinner(xList, oList);
+        assertEquals("X wins", Winner.X_WINS, logic.whoWins());
+    }
+
 }
