@@ -3,6 +3,7 @@ package pl.edu.agh.qtictactoe.logic;
 import androidx.core.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,12 +13,13 @@ import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Data
 public class GameLogic {
 
     private GameState actualGameState;
-    private Set<Move> checkedMoves;
+    private Set<Move> checkedMoves = new HashSet<>();
 
     GameLogic(GameState gameState) {
         actualGameState = gameState;
@@ -75,5 +77,40 @@ public class GameLogic {
                 .collect(Collectors.toList()));
 
         return moves;
+    }
+
+    public void resolveQuantumLoop(Move lastMove, int selectedCellIndex) {
+        if (lastMove.getCell2() != selectedCellIndex && lastMove.getCell1() != selectedCellIndex) {
+//            Log.e("Bad state", "There is no move in cell nr: " + selectedCellIndex);
+            return;
+        }
+        if (lastMove.getNumber() % 2 == 0) {
+            if (actualGameState.getSelectedO().contains(selectedCellIndex)) {
+                return;
+            }
+            actualGameState.getSelectedO().add(selectedCellIndex);
+            actualGameState.removeMove(lastMove, false);
+        } else {
+            if (actualGameState.getSelectedX().contains(selectedCellIndex)) {
+                return;
+            }
+            actualGameState.getSelectedX().add(selectedCellIndex);
+            actualGameState.removeMove(lastMove, true);
+        }
+        checkedMoves.add(lastMove);
+
+        List<Move> moves = getMovesFromCell(selectedCellIndex, lastMove);
+        List<Pair<Move, Integer>> cellsToCheck = getLinkedCells(moves, selectedCellIndex);
+        if (nonNull(cellsToCheck) || !cellsToCheck.isEmpty()) {
+            for (Pair<Move, Integer> cellToCheck : cellsToCheck) {
+                resolveQuantumLoop(cellToCheck.first, cellToCheck.second);
+            }
+        }
+    }
+
+    private void printList(List<Integer> list, String x) {
+        System.out.println(x + " List:");
+        list.forEach(e -> System.out.print(e + ":"));
+        System.out.println();
     }
 }

@@ -1,6 +1,7 @@
 package pl.edu.agh.qtictactoe.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -9,8 +10,8 @@ import lombok.Data;
 public class GameState implements Serializable {
 
     private int lasInsertedSign;
-    private List<Integer> selectedX;
-    private List<Integer> selectedO;
+    private List<Integer> selectedX = new ArrayList<>();
+    private List<Integer> selectedO = new ArrayList<>();
     private List<Move> movesX;
     private List<Move> movesO;
     private Integer roundNumber;
@@ -18,5 +19,12 @@ public class GameState implements Serializable {
     private boolean isFinished;
     private boolean isXTurn;
 
+    public void removeMove(Move moveToRemove, boolean isXMove) {
+        if (isXMove) {
+            movesX.remove(moveToRemove);
+        } else {
+            movesO.remove(moveToRemove);
+        }
+    }
 
 }
