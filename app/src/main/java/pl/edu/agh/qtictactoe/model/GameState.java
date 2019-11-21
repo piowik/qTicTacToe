@@ -1,16 +1,18 @@
 package pl.edu.agh.qtictactoe.model;
 
-import android.util.Pair;
-
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class GameState implements Serializable {
 
+    private int lasInsertedSign;
     private List<Integer> selectedX;
     private List<Integer> selectedO;
-    private List<Pair<Integer, Integer>> pairsX;
-    private List<Pair<Integer, Integer>> pairsO;
+    private List<Move> movesX;
+    private List<Move> movesO;
     private Integer roundNumber;
     private boolean hasConflict;
     private boolean isFinished;

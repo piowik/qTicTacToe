@@ -35,6 +35,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // https://mvnrepository.com/artifact/kryonet/kryonet-all
     implementation group: 'kryonet', name: 'kryonet-all', version: '2.21'
-
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
 }
