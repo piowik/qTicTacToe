@@ -35,7 +35,7 @@ public class GameLogic {
             Arrays.asList(3, 5, 7)
     );
 
-    GameLogic(GameState gameState) {
+    public GameLogic(GameState gameState) {
         actualGameState = gameState;
     }
 

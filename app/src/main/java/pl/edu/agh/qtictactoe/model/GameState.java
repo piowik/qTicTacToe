@@ -12,8 +12,8 @@ public class GameState implements Serializable {
     private int lasInsertedSign;
     private List<Integer> selectedX = new ArrayList<>();
     private List<Integer> selectedO = new ArrayList<>();
-    private List<Move> movesX;
-    private List<Move> movesO;
+    private List<Move> movesX = new ArrayList<>();
+    private List<Move> movesO = new ArrayList<>();
     private Integer roundNumber;
     private boolean hasConflict;
     private boolean isFinished;
