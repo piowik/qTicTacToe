@@ -2,14 +2,11 @@ package pl.edu.agh.qtictactoe.model;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class GameSquare {
-    private List<Integer> dataset;
-
-    public List<Integer> getDataset() {
-        return dataset;
-    }
-
-    public void setDataset(List<Integer> dataset) {
-        this.dataset = dataset;
-    }
+    private List<UnderlinedInteger> dataset;
 }

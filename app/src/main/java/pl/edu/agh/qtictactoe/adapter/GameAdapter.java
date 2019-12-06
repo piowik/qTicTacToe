@@ -1,10 +1,14 @@
 package pl.edu.agh.qtictactoe.adapter;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -14,6 +18,7 @@ import java.util.List;
 import pl.edu.agh.qtictactoe.R;
 import pl.edu.agh.qtictactoe.callback.SquareClickInterface;
 import pl.edu.agh.qtictactoe.model.GameSquare;
+import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
 
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     private List<GameSquare> dataset;
@@ -65,15 +70,25 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String strFormat;
-        List<Integer> dataSet = dataset.get(position).getDataset();
+        List<UnderlinedInteger> dataSet = dataset.get(position).getDataset();
         for (int i = 0; i < 9; i++) {
             TextView textView = holder.textViews.get(i);
-            int value = dataSet.get(i);
-            if (value == 0) {
+            UnderlinedInteger underlinedInteger = dataSet.get(i);
+            int value = underlinedInteger.getValue();
+            if (value == -1) {
                 textView.setVisibility(View.INVISIBLE);
                 continue;
             }
             textView.setVisibility(View.VISIBLE);
+            if (underlinedInteger.isUnderlined()) {
+                textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                textView.setTextColor(Color.parseColor("#FF0000"));
+            }
+            else {
+                textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                textView.setTextColor(Color.parseColor("#000000"));
+            }
+
             if (value % 2 == 0) {
                 strFormat = "O%d";
 //            holder.textView.setTextColor();

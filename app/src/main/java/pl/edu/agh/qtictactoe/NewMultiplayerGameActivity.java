@@ -24,7 +24,7 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
     public void hostClicked() {
         // TODO: start server
         new GameServer(() -> {
-            Intent intent = new Intent(getApplicationContext(), MultiplayerGameActivity.class);
+            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("ip", "localhost");
             intent.putExtras(bundle);
@@ -34,7 +34,7 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonJoin)
     public void joinClicked() {
-        Intent intent = new Intent(this, MultiplayerGameActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("ip",textViewIp.getText().toString());
         intent.putExtras(bundle);

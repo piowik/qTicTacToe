@@ -14,15 +14,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.edu.agh.qtictactoe.adapter.GameAdapter;
 import pl.edu.agh.qtictactoe.callback.SquareClickInterface;
-import pl.edu.agh.qtictactoe.logic.GameLogic;
 import pl.edu.agh.qtictactoe.model.GameSquare;
-import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
-import pl.edu.agh.qtictactoe.model.Winner;
+import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
 
-public class GameActivity extends AppCompatActivity implements SquareClickInterface {
+public class GameActivity extends AppCompatActivity implements SquareClickInterface, GameActivityInterface {
     private GameAdapter gameAdapter;
     private List<GameSquare> gameSquares;
+    private BaseController controller;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -30,8 +29,6 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     private int moveCounter;
     private int movesLeft;
     private ArrayList<Integer> selectedCells = new ArrayList<>();
-    private GameState gameState;
-    private GameLogic gameLogic;
     private boolean isSolvingLoop;
 
 
@@ -42,6 +39,15 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
         ButterKnife.bind(this);
         init();
+
+        String hostIp = getIntent().getExtras().getString("ip", null);
+        boolean isSingleplayer = hostIp == null;
+        if (isSingleplayer) {
+            controller = new SingleplayerController();
+        } else {
+            controller = new MultiplayerController(hostIp);
+        }
+        controller.attach(this);
     }
 
     @Override
@@ -59,9 +65,9 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         gameSquares = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             GameSquare gameSquare = new GameSquare();
-            List<Integer> list = new ArrayList<>();
+            List<UnderlinedInteger> list = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
-                list.add(0);
+                list.add(new UnderlinedInteger(-1));
             }
             gameSquare.setDataset(list);
             gameSquares.add(gameSquare);
@@ -74,60 +80,64 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     }
 
     private void initGame() {
-        gameState = new GameState();
-        gameLogic = new GameLogic(gameState);
-        moveCounter = 1;
         movesLeft = 2;
         isSolvingLoop = false;
     }
 
     private void selectedSquare(int position) {
-        if (moveCounter == 9) // crashes when moveCounter == 9 (win/draw condition will be met until then, so just a sanity check)
+        if (moveCounter == 10) // crashes when moveCounter == 10 (win/draw condition will be met until then, so just a sanity check)
             return;
-        int cellNumber = position + 1;
+        int cellNumber = position;
         if (isSolvingLoop) {
-            // TODO: solving loop
-            isSolvingLoop = false;
+            controller.onLoopSolved(position);
         } else {
             if (selectedCells.contains(cellNumber)) // already selected by player this round
                 return;
             selectedCells.add(cellNumber);
-            List<Integer> dataSet = gameSquares.get(position).getDataset();
-            dataSet.set(moveCounter - 1, moveCounter);
+            List<UnderlinedInteger> dataSet = gameSquares.get(position).getDataset();
+            dataSet.set(moveCounter, new UnderlinedInteger(moveCounter, false));
             gameAdapter.notifyItemChanged(position);
             movesLeft--;
             if (movesLeft == 0) {
                 Move move = new Move(moveCounter, selectedCells.get(0), selectedCells.get(1));
-                if (moveCounter % 2 == 0) { // O
-                    gameState.getMovesO().add(move);
-                } else { // X
-                    gameState.getMovesX().add(move);
-                }
-                if (moveCounter > 1) { // it's not the first move, check for quantum loop
-                    Log.i("GameActivity", "isQuantum: " + gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber()));
-                    if (gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber())) {
-                        isSolvingLoop = true;
-                    }
-                }
-                roundFinished();
+                recyclerView.setEnabled(false);
+                recyclerView.setClickable(false);
+                controller.onMove(move);
             }
         }
     }
 
-    private void roundFinished() {
-        if (gameLogic.whoWins() != Winner.NOBODY) {
-            Log.i("GameActivity", "Game finished, winner: " + gameLogic.whoWins().name());
-            // TODO: win
-        } else
-            nextRound();
+
+    @Override
+    public void updateGame() {
+        //
     }
 
-    private void nextRound() {
+    @Override
+    public void yourTurn(int turnNumber) {
+        moveCounter = turnNumber;
         selectedCells.clear();
         movesLeft = 2;
-        moveCounter++;
+        recyclerView.setEnabled(true);
+        recyclerView.setClickable(true);
+        isSolvingLoop = false;
         // TODO: display some info O/X's turn?
     }
 
+    @Override
+    public void solveLoop(Move move) {
+        isSolvingLoop = true;
+        moveCounter = move.getNumber();
+        GameSquare gameSquare1 = gameSquares.get(move.getCell1());
+        GameSquare gameSquare2 = gameSquares.get(move.getCell2());
+        gameSquare1.getDataset().get(moveCounter).setUnderlined(true);
+        gameSquare2.getDataset().get(moveCounter).setUnderlined(true);
+        gameAdapter.notifyItemChanged(move.getCell1());
+        gameAdapter.notifyItemChanged(move.getCell2());
+    }
 
+    @Override
+    public void onWin(boolean hasWon) {
+        finish();
+    }
 }
