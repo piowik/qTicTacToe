@@ -9,8 +9,6 @@ import com.esotericsoftware.kryonet.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import pl.edu.agh.qtictactoe.logic.GameLogic;
-import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.network.Network;
 
 public class GameServer {
@@ -28,8 +26,7 @@ public class GameServer {
             @Override
             public void connected(Connection connection) {
                 players.add((PlayerConnection) connection);
-                GameState gameState = new GameState();
-                sendTCP(gameState);
+                sendTCP(new Network.StartGame());
                 super.connected(connection);
             }
 
@@ -52,6 +49,7 @@ public class GameServer {
         server.start();
         startedInterface.onStarted();
     }
+
 
     private void sendTCP(Object o) {
         new SendTCP().execute(o);

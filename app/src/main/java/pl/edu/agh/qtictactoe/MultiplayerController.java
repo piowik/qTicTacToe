@@ -16,6 +16,7 @@ public class MultiplayerController extends BaseController {
 
     public MultiplayerController(String ip) {
         client = new Client();
+        Network.register(client);
         client.start();
         client.addListener(new Listener() {
             @Override
@@ -30,9 +31,13 @@ public class MultiplayerController extends BaseController {
 
             @Override
             public void received(Connection connection, Object o) {
+                if (o instanceof Network.StartGame) {
+                    System.out.println("Game Started");
+                }
                 super.received(connection, o);
             }
         });
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
