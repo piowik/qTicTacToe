@@ -2,6 +2,7 @@ package pl.edu.agh.qtictactoe;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -59,6 +60,11 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     private void init() {
         initUI();
         initGame();
+    }
+
+    @Override
+    public void startGame() {
+        findViewById(R.id.waitingText).setVisibility(View.INVISIBLE);
     }
 
     private void initUI() {

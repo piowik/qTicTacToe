@@ -3,6 +3,7 @@ package pl.edu.agh.qtictactoe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,13 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
     @BindView(R.id.textViewIp)
     TextView textViewIp;
 
+    @BindView(R.id.editTextHostIp)
+    EditText hostIp;
+
+    private IPDao ipDao;
+
     @OnClick(R.id.buttonHost)
     public void hostClicked() {
-        // TODO: start server
         new GameServer(() -> {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             Bundle bundle = new Bundle();
@@ -34,15 +39,39 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonJoin)
     public void joinClicked() {
+        ipDao = QDatabase.getAppDatbase(this).daoAccess();
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... voids) {
+                ipDao.insertOnlySingleIp(new IPAdd(voids[0]));
+                return null;
+            }
+        }.execute(hostIp.getText().toString());
         Intent intent = new Intent(this, GameActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("ip",textViewIp.getText().toString());
+        bundle.putString("ip", hostIp.getText().toString());
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ipDao = QDatabase.getAppDatbase(this).daoAccess();
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... voids) {
+                List<IPAdd> ipList = ipDao.fetchAll();
+                if (ipList.size() > 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hostIp.setText(ipList.get(ipList.size() - 1).getIpAdd());
+                        }
+                    });
+                }
+                return null;
+            }
+        }.execute();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_multiplayer_game);
 

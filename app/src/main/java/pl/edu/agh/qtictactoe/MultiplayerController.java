@@ -13,6 +13,8 @@ import pl.edu.agh.qtictactoe.network.Network;
 
 public class MultiplayerController extends BaseController {
     private Client client;
+    private int moveCounter;
+    private Move lastMove;
 
     public MultiplayerController(String ip) {
         client = new Client();
@@ -33,6 +35,7 @@ public class MultiplayerController extends BaseController {
             public void received(Connection connection, Object o) {
                 if (o instanceof Network.StartGame) {
                     System.out.println("Game Started");
+                    gameActivityInterface.startGame();
                 }
                 super.received(connection, o);
             }
@@ -59,6 +62,6 @@ public class MultiplayerController extends BaseController {
 
     @Override
     public void onMove(Move move) {
-
+        client.sendTCP(move);
     }
 }

@@ -9,11 +9,13 @@ import com.esotericsoftware.kryonet.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import pl.edu.agh.qtictactoe.model.Move;
 import pl.edu.agh.qtictactoe.network.Network;
 
 public class GameServer {
     private Server server;
     private ArrayList<PlayerConnection> players = new ArrayList<>();
+
 
     public GameServer(ServerStartedInterface startedInterface) {
         server = new Server() {
@@ -38,6 +40,9 @@ public class GameServer {
             @Override
             public void received(Connection connection, Object o) {
 //                players.get(0).sendTCP(new GameState()); // example
+                if (o instanceof Move) {
+                    System.out.println("Move received");
+                }
                 super.received(connection, o);
             }
         });
@@ -79,8 +84,8 @@ public class GameServer {
         }
     }
 
-
     private static class PlayerConnection extends Connection {
         int id;
+        boolean isX;
     }
 }
