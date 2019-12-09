@@ -6,8 +6,18 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "ipAddTable")
 public class IPAdd {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @NonNull
-    @PrimaryKey
     private String ipAdd;
 
     public IPAdd(String ipAdd) {

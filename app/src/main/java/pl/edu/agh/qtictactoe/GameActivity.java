@@ -3,6 +3,7 @@ package pl.edu.agh.qtictactoe;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -145,11 +146,25 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void onWin(boolean hasWon) {
+//        Toast.makeText(this, hasWon ? "Won" : "Lost", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void onMove() {
+//        Toast.makeText(this, "Moved", Toast.LENGTH_SHORT).show();
         //TODO
     }
+
+    @Override
+    public void onDraw() {
+//        Toast.makeText(this, "Draw", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onResolvedConflict(int[] x, int[] y) {
+//        Toast.makeText(this, "Resolved", Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -20,7 +20,15 @@ public class Network {
     }
 
     static public class YourTurn {
+        int turnNumber;
 
+        public YourTurn(int turnNumber) {
+            this.turnNumber = turnNumber;
+        }
+
+        public int getTurnNumber() {
+            return turnNumber;
+        }
     }
 
     static public class ResolveConflict {

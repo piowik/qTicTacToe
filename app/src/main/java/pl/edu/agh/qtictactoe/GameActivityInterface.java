@@ -14,4 +14,8 @@ public interface GameActivityInterface {
     void startGame();
 
     void onMove();
+
+    void onDraw();
+
+    void onResolvedConflict(int[] x, int[] y);
 }

@@ -41,6 +41,26 @@ public class MultiplayerController extends BaseController {
                     gameActivityInterface.onMove();
 
                 }
+                if (o instanceof Network.YouLoose) {
+                    gameActivityInterface.onWin(false);
+
+                }
+                if (o instanceof Network.YouWin) {
+                    gameActivityInterface.onWin(true);
+
+                }
+                if (o instanceof Network.Draw) {
+                    gameActivityInterface.onDraw();
+
+                }
+                if (o instanceof Network.YourTurn) {
+                    gameActivityInterface.yourTurn(((Network.YourTurn) o).getTurnNumber());
+                }
+                if (o instanceof Network.ConflictSolution) {
+                    int[] x = ((Network.ConflictSolution) o).getSelectedX();
+                    int[] y = ((Network.ConflictSolution) o).getSelectedY();
+                    gameActivityInterface.onResolvedConflict(x,y);
+                }
 
                 super.received(connection, o);
             }

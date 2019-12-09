@@ -59,7 +59,7 @@ public class GameServer {
                         lastMove = move;
                         sendToTCP(sendTo.getID(), new Network.ResolveConflict());
                     } else {
-                        sendToTCP(sendTo.getID(), new Network.YourTurn());
+                        sendToTCP(sendTo.getID(), new Network.YourTurn(gameLogic.getActualGameState().getRoundNumber()+1));
                     }
 
                 } else if (o instanceof Network.SelectedCell) {
@@ -84,7 +84,7 @@ public class GameServer {
                         sendToTCP(players.get(0).getID(), new Network.Draw());
                         sendToTCP(players.get(0).getID(), new Network.Draw());
                     } else if (winner.equals(Winner.NOBODY)) {
-                        sendToTCP(nextPlayer.getID(), new Network.YourTurn());
+                        sendToTCP(nextPlayer.getID(), new Network.YourTurn(gameLogic.getActualGameState().getRoundNumber()));
                     }
 
                 }
