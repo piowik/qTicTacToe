@@ -1,61 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:contentDescription="@string/app_name"
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:src="@drawable/quantum_logo_v2"
-        android:padding="20dp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="60sp"
-        android:layout_margin="20dp"
-        android:textColor="@color/colorAccent"
-        />
-
-    <Button
-        android:id="@+id/singleplayer_button"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="@string/singleplayer"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="0dp"
-        android:enabled="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
-
-    <Button
-        android:id="@+id/multiplayer_button"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="@string/multiplayer"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        android:layout_margin="20dp"
-        android:enabled="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
