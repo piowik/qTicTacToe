@@ -146,4 +146,9 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     public void onWin(boolean hasWon) {
         finish();
     }
+
+    @Override
+    public void onMove() {
+        //TODO
+    }
 }

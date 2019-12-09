@@ -8,14 +8,19 @@ import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+import pl.edu.agh.qtictactoe.logic.GameLogic;
+import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
+import pl.edu.agh.qtictactoe.model.Winner;
 import pl.edu.agh.qtictactoe.network.Network;
 
 public class GameServer {
     private Server server;
+    private GameLogic gameLogic = new GameLogic(new GameState());
     private ArrayList<PlayerConnection> players = new ArrayList<>();
-
+    Move lastMove = new Move();
 
     public GameServer(ServerStartedInterface startedInterface) {
         server = new Server() {
@@ -42,6 +47,46 @@ public class GameServer {
 //                players.get(0).sendTCP(new GameState()); // example
                 if (o instanceof Move) {
                     System.out.println("Move received");
+                    Move move = (Move) o;
+
+                    Connection sendTo = players.stream()
+                            .filter(e -> e.getID() != connection.getID())
+                            .collect(Collectors.toList()).get(0);
+                    sendToTCP(sendTo.getID(), o);
+
+                    boolean isQuantumLoop = gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber());
+                    if (isQuantumLoop) {
+                        lastMove = move;
+                        sendToTCP(sendTo.getID(), new Network.ResolveConflict());
+                    } else {
+                        sendToTCP(sendTo.getID(), new Network.YourTurn());
+                    }
+
+                } else if (o instanceof Network.SelectedCell) {
+                    Connection nextPlayer = connection.getID() == players.get(0).getID() ? players.get(1) : players.get(0);
+
+                    Network.SelectedCell selectedCell = (Network.SelectedCell) o;
+                    gameLogic.resolveQuantumLoop(lastMove, selectedCell.getSelectedCell());
+                    int[] selectedX = gameLogic.getActualGameState().getSelectedX().stream().mapToInt(i -> i).toArray();
+                    int[] selectedO = gameLogic.getActualGameState().getSelectedO().stream().mapToInt(i -> i).toArray();
+                    Network.ConflictSolution conflictSolution = new Network.ConflictSolution(selectedX, selectedO);
+                    sendToTCP(players.get(0).getID(), conflictSolution);
+                    sendToTCP(players.get(1).getID(), conflictSolution);
+
+                    Winner winner = gameLogic.whoWins();
+                    if (winner.equals(Winner.O_WINS)) {
+                        sendToTCP(players.get(0).getID(), new Network.YouWin());
+                        sendToTCP(players.get(1).getID(), new Network.YouLoose());
+                    } else if (winner.equals(Winner.X_WINS)) {
+                        sendToTCP(players.get(0).getID(), new Network.YouLoose());
+                        sendToTCP(players.get(1).getID(), new Network.YouWin());
+                    } else if (winner.equals(Winner.DRAW)) {
+                        sendToTCP(players.get(0).getID(), new Network.Draw());
+                        sendToTCP(players.get(0).getID(), new Network.Draw());
+                    } else if (winner.equals(Winner.NOBODY)) {
+                        sendToTCP(nextPlayer.getID(), new Network.YourTurn());
+                    }
+
                 }
                 super.received(connection, o);
             }

@@ -12,4 +12,6 @@ public interface GameActivityInterface {
     void onWin(boolean hasWon);
 
     void startGame();
+
+    void onMove();
 }

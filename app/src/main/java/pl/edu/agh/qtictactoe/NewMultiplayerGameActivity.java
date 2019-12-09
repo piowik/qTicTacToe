@@ -1,6 +1,7 @@
 package pl.edu.agh.qtictactoe;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -16,18 +17,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.edu.agh.qtictactoe.database.QDatabase;
+import pl.edu.agh.qtictactoe.database.dao.IPDao;
+import pl.edu.agh.qtictactoe.database.entity.IPAdd;
 
 public class NewMultiplayerGameActivity extends AppCompatActivity {
     @BindView(R.id.textViewIp)
     TextView textViewIp;
+    private IPDao ipDao;
 
     @BindView(R.id.editTextHostIp)
     EditText hostIp;
 
-    private IPDao ipDao;
-
     @OnClick(R.id.buttonHost)
     public void hostClicked() {
+
+
         new GameServer(() -> {
             Intent intent = new Intent(getApplicationContext(), GameActivity.class);
             Bundle bundle = new Bundle();
@@ -73,6 +78,8 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
             }
         }.execute();
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_new_multiplayer_game);
 
         ButterKnife.bind(this);
