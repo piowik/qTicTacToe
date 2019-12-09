@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,9 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
     @BindView(R.id.textViewIp)
     TextView textViewIp;
     private IPDao ipDao;
+
+    @BindView(R.id.editTextHostIp)
+    EditText hostIpEditText;
 
     @OnClick(R.id.buttonHost)
     public void hostClicked() {
@@ -47,10 +51,10 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
                 ipDao.insertOnlySingleIp(new IPAdd(voids[0]));
                 return null;
             }
-        }.execute(textViewIp.getText().toString());
+        }.execute(hostIpEditText.getText().toString());
         Intent intent = new Intent(this, GameActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("ip",textViewIp.getText().toString());
+        bundle.putString("ip",hostIpEditText.getText().toString());
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -67,7 +71,7 @@ public class NewMultiplayerGameActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            textViewIp.setText(ipList.get(0).getIpAdd());
+                            hostIpEditText.setText(ipList.get(ipList.size()-1).getIpAdd());
                         }
                     });
                 }
