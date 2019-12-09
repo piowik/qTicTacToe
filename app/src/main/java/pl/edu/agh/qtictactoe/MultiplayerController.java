@@ -33,7 +33,15 @@ public class MultiplayerController extends BaseController {
             public void received(Connection connection, Object o) {
                 if (o instanceof Network.StartGame) {
                     System.out.println("Game Started");
+                    gameActivityInterface.startGame();
                 }
+
+                if (o instanceof Move) {
+                    Move move = (Move) o;
+                    gameActivityInterface.onMove();
+
+                }
+
                 super.received(connection, o);
             }
         });
@@ -59,6 +67,13 @@ public class MultiplayerController extends BaseController {
 
     @Override
     public void onMove(Move move) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                client.sendTCP(move);
+                return null;
+            }
+        }.execute();
 
     }
 }

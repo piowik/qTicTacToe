@@ -6,7 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-
 import pl.edu.agh.qtictactoe.database.dao.IPDao;
 import pl.edu.agh.qtictactoe.database.entity.IPAdd;
 
@@ -14,11 +13,12 @@ import pl.edu.agh.qtictactoe.database.entity.IPAdd;
 
 public abstract class QDatabase extends RoomDatabase {
     public abstract IPDao daoAccess();
+
     private static QDatabase INSTANCE;
 
-    public static QDatabase getAppDatbase(Context context){
-        if(INSTANCE==null){
-            INSTANCE= Room.databaseBuilder(context.getApplicationContext(),QDatabase.class,"QDB").build();
+    public static QDatabase getAppDatbase(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), QDatabase.class, "QDB").build();
         }
         return INSTANCE;
     }

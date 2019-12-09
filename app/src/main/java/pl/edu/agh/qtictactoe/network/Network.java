@@ -12,30 +12,65 @@ public class Network {
         Kryo kryo = endPoint.getKryo();
         kryo.register(Move.class);
         kryo.register(YourTurn.class);
-        kryo.register(Conflict.class);
-        kryo.register(IsFinished.class);
+        kryo.register(ResolveConflict.class);
+        kryo.register(YouLoose.class);
         kryo.register(StartGame.class);
-        kryo.register(ConfictSolution.class);
+        kryo.register(SelectedCell.class);
+        kryo.register(ConflictSolution.class);
     }
 
     static public class YourTurn {
 
     }
 
-    static public class Conflict {
+    static public class ResolveConflict {
 
     }
 
-    static public class IsFinished {
+    static public class YouLoose {
 
     }
+
+    static public class YouWin {
+
+    }
+
+    static public class Draw {
+
+    }
+
 
     static public class StartGame {
 
     }
 
-    static public class ConfictSolution {
+    static public class SelectedCell {
         int selectedCell;
+
+        public int getSelectedCell() {
+            return selectedCell;
+        }
+
+        public void setSelectedCell(int selectedCell) {
+            this.selectedCell = selectedCell;
+        }
     }
 
+    static public class ConflictSolution {
+        int[] selectedX;
+        int[] selectedY;
+
+        public ConflictSolution(int[] selectedX, int[] selectedY) {
+            this.selectedX = selectedX;
+            this.selectedY = selectedY;
+        }
+
+        public int[] getSelectedX() {
+            return selectedX;
+        }
+
+        public int[] getSelectedY() {
+            return selectedY;
+        }
+    }
 }

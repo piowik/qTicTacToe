@@ -10,4 +10,8 @@ public interface GameActivityInterface {
     void solveLoop(Move move);
 
     void onWin(boolean hasWon);
+
+    void startGame();
+
+    void onMove();
 }

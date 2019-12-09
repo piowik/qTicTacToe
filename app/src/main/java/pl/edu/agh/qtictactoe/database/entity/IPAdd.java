@@ -11,7 +11,7 @@ public class IPAdd {
     private String ipAdd;
 
     public IPAdd(String ipAdd) {
-        this.ipAdd= ipAdd;
+        this.ipAdd = ipAdd;
     }
 
     public String getIpAdd() {
@@ -19,7 +19,7 @@ public class IPAdd {
     }
 
     public void setIpAdd(String ipAdd) {
-        this.ipAdd=ipAdd;
+        this.ipAdd = ipAdd;
     }
 
 }

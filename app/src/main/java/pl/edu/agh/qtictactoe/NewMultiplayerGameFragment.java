@@ -35,6 +35,8 @@ public class NewMultiplayerGameFragment extends Fragment {
 
     @OnClick(R.id.buttonHost)
     public void hostClicked() {
+
+
         new GameServer(() -> {
             Intent intent = new Intent(getContext(), GameActivity.class);
             Bundle bundle = new Bundle();

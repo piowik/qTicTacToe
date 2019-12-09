@@ -10,8 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:src="@drawable/quantum_logo_v2"
-        android:padding="20dp"
-        />
+        android:padding="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -22,8 +21,7 @@
         android:gravity="center"
         android:textSize="60sp"
         android:layout_margin="20dp"
-        android:textColor="@color/colorAccent"
-        />
+        android:textColor="@color/colorAccent" />
 
     <Button
         android:id="@+id/singleplayer_button"
@@ -39,8 +37,7 @@
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
+        android:textColor="@color/colorWhite" />
 
     <Button
         android:id="@+id/multiplayer_button"
@@ -55,7 +52,6 @@
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>

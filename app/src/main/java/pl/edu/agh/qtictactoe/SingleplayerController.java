@@ -2,11 +2,15 @@ package pl.edu.agh.qtictactoe;
 
 import android.util.Log;
 
+import pl.edu.agh.qtictactoe.logic.GameLogic;
+import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
 
 public class SingleplayerController extends BaseController {
     private int moveCounter;
     private Move lastMove;
+    GameLogic gameLogic;
+    GameState gameState;
 
     @Override
     public void onLoopSolved(int position) {
