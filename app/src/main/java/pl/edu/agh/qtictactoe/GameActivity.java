@@ -21,7 +21,7 @@ import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
 public class GameActivity extends AppCompatActivity implements SquareClickInterface, GameActivityInterface {
     private GameAdapter gameAdapter;
     private List<GameSquare> gameSquares;
-    private BaseController controller;
+    private BaseController controller = null;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -40,13 +40,14 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         ButterKnife.bind(this);
         init();
 
-        String hostIp = getIntent().getExtras().getString("ip", null);
-        boolean isSingleplayer = hostIp == null;
-        if (isSingleplayer) {
-            controller = new SingleplayerController();
-        } else {
-            controller = new MultiplayerController(hostIp);
+        if (getIntent().getExtras() != null) {
+            String hostIp = getIntent().getExtras().getString("ip", null);
+            if (hostIp != null)
+                controller = new MultiplayerController(hostIp);
         }
+        if (controller == null)
+            controller = new SingleplayerController();
+
         controller.attach(this);
     }
 

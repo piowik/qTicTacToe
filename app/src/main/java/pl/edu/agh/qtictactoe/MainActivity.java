@@ -1,31 +1,41 @@
 package pl.edu.agh.qtictactoe;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-
-    @OnClick(R.id.singleplayer_button)
-    public void singlePlayer() {
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.multiplayer_button)
-    public void multiplayer() {
-        Intent intent = new Intent(this, NewMultiplayerGameActivity.class);
-        startActivity(intent);
-    }
+    TimeReceiver receiver = new TimeReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        intentFilter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        intentFilter.addAction(Intent.ACTION_TIME_CHANGED);
+        registerReceiver(receiver,intentFilter);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        MainViewFragment mainViewFragment = new MainViewFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, mainViewFragment);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
