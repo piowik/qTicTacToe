@@ -1,61 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <ImageView
-        android:contentDescription="@string/app_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="5"
-        android:src="@drawable/quantum_logo_v2"
-        android:padding="20dp"
-        />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="60sp"
-        android:layout_margin="20dp"
-        android:textColor="@color/colorAccent"
-        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:contentDescription="@string/app_name"
+            android:padding="20dp"
+            android:src="@drawable/quantum_logo_v2" />
 
-    <Button
-        android:id="@+id/singleplayer_button"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="@string/singleplayer"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="0dp"
-        android:enabled="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="60sp" />
 
-    <Button
-        android:id="@+id/multiplayer_button"
-        android:layout_weight="1"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="@string/multiplayer"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        android:layout_margin="20dp"
-        android:enabled="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:textColor="@color/colorWhite"
-        />
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/singleplayer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
+            android:text="@string/singleplayer"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/multiplayer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
+
+            android:text="@string/multiplayer"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </LinearLayout>
