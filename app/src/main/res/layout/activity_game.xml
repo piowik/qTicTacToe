@@ -25,6 +25,15 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/winner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textColor="@color/colorAccent"
+            android:textSize="40sp"
+            android:textAlignment="center" />
+
+        <TextView
             android:id="@+id/waitingText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

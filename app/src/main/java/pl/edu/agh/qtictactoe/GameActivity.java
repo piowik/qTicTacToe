@@ -3,6 +3,7 @@ package pl.edu.agh.qtictactoe;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -189,9 +190,12 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     }
 
     @Override
-    public void onWin(boolean hasWon) {
+    public void onWin(boolean hasWon, boolean isXWin) {
+        if (hasWon) {
+            showWinner(isXWin);
+        }
 //        Toast.makeText(this, hasWon ? "Won" : "Lost", Toast.LENGTH_SHORT).show();
-        finish();
+//        finish();
     }
 
     @Override
@@ -202,13 +206,22 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void onDraw() {
-//        Toast.makeText(this, "Draw", Toast.LENGTH_SHORT).show();
-        finish();
+        TextView textView = findViewById(R.id.winner);
+        textView.setText("DRAW");
+        textView.setVisibility(View.VISIBLE);
+//        finish();
     }
 
     @Override
     public void onResolvedConflict(int[] x, int[] y) {
 //        Toast.makeText(this, "Resolved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showWinner(boolean isXWin) {
+        TextView textView = findViewById(R.id.winner);
+        String winnerText = isXWin ? "X WIN GAME" : "O WIN GAME";
+        textView.setText(winnerText);
+        textView.setVisibility(View.VISIBLE);
     }
 
 }

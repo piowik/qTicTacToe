@@ -42,11 +42,11 @@ public class MultiplayerController extends BaseController {
 
                 }
                 if (o instanceof Network.YouLoose) {
-                    gameActivityInterface.onWin(false);
+                    gameActivityInterface.onWin(false, false);
 
                 }
                 if (o instanceof Network.YouWin) {
-                    gameActivityInterface.onWin(true);
+                    gameActivityInterface.onWin(true, false);
 
                 }
                 if (o instanceof Network.Draw) {

@@ -12,7 +12,7 @@ public interface GameActivityInterface {
 
     void solveLoop(Move move);
 
-    void onWin(boolean hasWon);
+    void onWin(boolean hasWon, boolean isXWin);
 
     void startGame();
 

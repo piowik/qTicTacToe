@@ -5,6 +5,7 @@ import android.util.Log;
 import pl.edu.agh.qtictactoe.logic.GameLogic;
 import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
+import pl.edu.agh.qtictactoe.model.Winner;
 
 public class SingleplayerController extends BaseController {
     private int moveCounter;
@@ -14,8 +15,19 @@ public class SingleplayerController extends BaseController {
     @Override
     public void onLoopSolved(int position) {
         gameLogic.resolveQuantumLoop(lastMove, position);
+
         gameActivityInterface.updateGame(gameLogic.getActualGameState());
-        gameActivityInterface.yourTurn(moveCounter);
+
+        Winner winner = gameLogic.whoWins();
+        if (winner.equals(Winner.DRAW)) {
+            gameActivityInterface.onDraw();
+        } else if (winner.equals(Winner.NOBODY)) {
+            gameActivityInterface.yourTurn(moveCounter);
+        } else if (winner.equals(Winner.X_WINS)) {
+            gameActivityInterface.onWin(true, true);
+        } else if (winner.equals(Winner.O_WINS)) {
+            gameActivityInterface.onWin(true, false);
+        }
     }
 
     @Override
