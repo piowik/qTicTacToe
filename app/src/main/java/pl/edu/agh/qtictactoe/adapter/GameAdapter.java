@@ -90,25 +90,26 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             } else if (value == SELECTED_0) {
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setTextColor(Color.parseColor("#00FF00"));
-                textView.setText("0");
-            }
-            if (underlinedInteger.isUnderlined()) {
-                textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-                textView.setTextColor(Color.parseColor("#FF0000"));
+                textView.setText("O");
             }
             else {
-                textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                textView.setTextColor(Color.parseColor("#000000"));
-            }
+                if (underlinedInteger.isUnderlined()) {
+                    textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    textView.setTextColor(Color.parseColor("#FF0000"));
+                } else {
+                    textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                    textView.setTextColor(Color.parseColor("#000000"));
+                }
 
-            if (value % 2 == 0) {
-                strFormat = "O%d";
+                if (value % 2 == 0) {
+                    strFormat = "O%d";
 //            holder.textView.setTextColor();
-                textView.setText(String.format(strFormat, value));
-            } else {
-                strFormat = "X%d";
-                //            holder.textView.setTextColor();
-                textView.setText(String.format(strFormat, value));
+                    textView.setText(String.format(strFormat, value));
+                } else {
+                    strFormat = "X%d";
+                    //            holder.textView.setTextColor();
+                    textView.setText(String.format(strFormat, value));
+                }
             }
         }
 

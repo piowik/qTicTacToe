@@ -9,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class GameSquare {
     private List<UnderlinedInteger> dataset;
+    private boolean isSolved = false;
 }

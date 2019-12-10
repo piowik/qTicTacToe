@@ -3,6 +3,7 @@ package pl.edu.agh.qtictactoe;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     private int movesLeft;
     private ArrayList<Integer> selectedCells = new ArrayList<>();
     private boolean isSolvingLoop;
+    private Move loopMove;
 
 
     @Override
@@ -61,6 +63,8 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     @Override
     public void onSquareClicked(int position) {
         Log.i("GameActivity", "onSquareClicked: " + position);
+        if (gameSquares.get(position).isSolved())
+            return;
         selectedSquare(position);
     }
 
@@ -102,6 +106,10 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         if (moveCounter == 10) // crashes when moveCounter == 10 (win/draw condition will be met until then, so just a sanity check)
             return;
         if (isSolvingLoop) {
+            if (position != loopMove.getCell1() && position != loopMove.getCell2()) {
+                Toast.makeText(this, "Invalid loop solution", Toast.LENGTH_SHORT).show();
+                return;
+            }
             controller.onLoopSolved(position);
         } else {
             if (selectedCells.contains(position)) // already selected by player this round
@@ -132,6 +140,8 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
             }
             newDataSet.add(new UnderlinedInteger(SELECTED_X, false, true));
             gameSquares.get(cell).setDataset(newDataSet);
+            gameSquares.get(cell).setSolved(true);
+
             for (int i = 0; i < 9; i++) {
                 gameAdapter.notifyItemChanged(i);
             }
@@ -145,6 +155,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
             }
             newDataSet.add(new UnderlinedInteger(SELECTED_0, false, true));
             gameSquares.get(cell).setDataset(newDataSet);
+            gameSquares.get(cell).setSolved(true);
             for (int i = 0; i < 9; i++) {
                 gameAdapter.notifyItemChanged(i);
             }
@@ -166,7 +177,6 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void solveLoop(Move move) {
-        isSolvingLoop = true;
         moveCounter = move.getNumber();
         GameSquare gameSquare1 = gameSquares.get(move.getCell1());
         GameSquare gameSquare2 = gameSquares.get(move.getCell2());
@@ -174,6 +184,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         gameSquare2.getDataset().get(moveCounter).setUnderlined(true);
         gameAdapter.notifyItemChanged(move.getCell1());
         gameAdapter.notifyItemChanged(move.getCell2());
+        loopMove = move;
         isSolvingLoop = true;
     }
 
