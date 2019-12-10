@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -19,6 +18,10 @@ import pl.edu.agh.qtictactoe.R;
 import pl.edu.agh.qtictactoe.callback.SquareClickInterface;
 import pl.edu.agh.qtictactoe.model.GameSquare;
 import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
+
+import static pl.edu.agh.qtictactoe.GameActivity.EMPTY;
+import static pl.edu.agh.qtictactoe.GameActivity.SELECTED_0;
+import static pl.edu.agh.qtictactoe.GameActivity.SELECTED_X;
 
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     private List<GameSquare> dataset;
@@ -75,11 +78,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             TextView textView = holder.textViews.get(i);
             UnderlinedInteger underlinedInteger = dataSet.get(i);
             int value = underlinedInteger.getValue();
-            if (value == -1) {
+            if (value == EMPTY) {
                 textView.setVisibility(View.INVISIBLE);
                 continue;
             }
             textView.setVisibility(View.VISIBLE);
+            if (value == SELECTED_X) {
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textView.setTextColor(Color.parseColor("#00FF00"));
+                textView.setText("X");
+            } else if (value == SELECTED_0) {
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textView.setTextColor(Color.parseColor("#00FF00"));
+                textView.setText("0");
+            }
             if (underlinedInteger.isUnderlined()) {
                 textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                 textView.setTextColor(Color.parseColor("#FF0000"));

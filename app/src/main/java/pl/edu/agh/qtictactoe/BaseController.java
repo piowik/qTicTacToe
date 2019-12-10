@@ -6,6 +6,7 @@ public abstract class BaseController {
     GameActivityInterface gameActivityInterface;
 
     abstract void onLoopSolved(int position);
+
     abstract void onMove(Move move);
 
     public BaseController() {

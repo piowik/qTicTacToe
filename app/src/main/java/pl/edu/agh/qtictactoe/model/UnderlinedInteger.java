@@ -10,6 +10,7 @@ import lombok.Setter;
 public class UnderlinedInteger {
     private int value;
     private boolean underlined;
+    private boolean isSelected;
 
     public UnderlinedInteger(int value) {
         this.value = value;

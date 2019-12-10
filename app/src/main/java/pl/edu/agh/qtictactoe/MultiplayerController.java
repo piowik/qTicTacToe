@@ -38,7 +38,7 @@ public class MultiplayerController extends BaseController {
 
                 if (o instanceof Move) {
                     Move move = (Move) o;
-                    gameActivityInterface.onMove();
+                    gameActivityInterface.onMove(move);
 
                 }
                 if (o instanceof Network.YouLoose) {

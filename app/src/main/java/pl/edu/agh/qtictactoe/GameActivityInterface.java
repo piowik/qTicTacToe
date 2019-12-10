@@ -1,9 +1,12 @@
 package pl.edu.agh.qtictactoe;
 
+import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
 
 public interface GameActivityInterface {
-    void updateGame();
+    boolean isSolvingLoop = false;
+
+    void updateGame(GameState gameState);
 
     void yourTurn(int turnNumber);
 
@@ -13,7 +16,7 @@ public interface GameActivityInterface {
 
     void startGame();
 
-    void onMove();
+    void onMove(Move move);
 
     void onDraw();
 
