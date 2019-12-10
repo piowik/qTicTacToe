@@ -21,14 +21,15 @@ import pl.edu.agh.qtictactoe.model.GameState;
 import pl.edu.agh.qtictactoe.model.Move;
 import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
 
+import static pl.edu.agh.qtictactoe.model.GameSquare.SELECTED_0;
+import static pl.edu.agh.qtictactoe.model.GameSquare.SELECTED_NONE;
+import static pl.edu.agh.qtictactoe.model.GameSquare.SELECTED_X;
+import static pl.edu.agh.qtictactoe.model.UnderlinedInteger.EMPTY;
+
 public class GameActivity extends AppCompatActivity implements SquareClickInterface, GameActivityInterface {
     private GameAdapter gameAdapter;
     private List<GameSquare> gameSquares;
     private BaseController controller = null;
-
-    public static final int EMPTY = -1;
-    public static final int SELECTED_X = -2;
-    public static final int SELECTED_0 = -3;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -63,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     @Override
     public void onSquareClicked(int position) {
         Log.i("GameActivity", "onSquareClicked: " + position);
-        if (gameSquares.get(position).isSolved())
+        if (gameSquares.get(position).getSelection() != SELECTED_NONE)
             return;
         selectedSquare(position);
     }
@@ -134,31 +135,11 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         List<Integer> xList = gameState.getSelectedX();
         List<Integer> oList = gameState.getSelectedO();
         for (Integer cell : xList) {
-            List<UnderlinedInteger> newDataSet = new ArrayList<>(9);
-            for (int i = 0; i < 8; i++) {
-                newDataSet.add(new UnderlinedInteger(EMPTY));
-            }
-            newDataSet.add(new UnderlinedInteger(SELECTED_X, false, true));
-            gameSquares.get(cell).setDataset(newDataSet);
-            gameSquares.get(cell).setSolved(true);
-
-            for (int i = 0; i < 9; i++) {
-                gameAdapter.notifyItemChanged(i);
-            }
+            gameSquares.get(cell).setSelection(SELECTED_X);
             gameAdapter.notifyItemChanged(cell);
         }
-
         for (Integer cell : oList) {
-            List<UnderlinedInteger> newDataSet = new ArrayList<>(9);
-            for (int i = 0; i < 8; i++) {
-                newDataSet.add(new UnderlinedInteger(EMPTY));
-            }
-            newDataSet.add(new UnderlinedInteger(SELECTED_0, false, true));
-            gameSquares.get(cell).setDataset(newDataSet);
-            gameSquares.get(cell).setSolved(true);
-            for (int i = 0; i < 9; i++) {
-                gameAdapter.notifyItemChanged(i);
-            }
+            gameSquares.get(cell).setSelection(SELECTED_0);
             gameAdapter.notifyItemChanged(cell);
         }
 

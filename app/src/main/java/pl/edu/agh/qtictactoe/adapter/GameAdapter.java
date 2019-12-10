@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,9 +20,9 @@ import pl.edu.agh.qtictactoe.callback.SquareClickInterface;
 import pl.edu.agh.qtictactoe.model.GameSquare;
 import pl.edu.agh.qtictactoe.model.UnderlinedInteger;
 
-import static pl.edu.agh.qtictactoe.GameActivity.EMPTY;
-import static pl.edu.agh.qtictactoe.GameActivity.SELECTED_0;
-import static pl.edu.agh.qtictactoe.GameActivity.SELECTED_X;
+import static pl.edu.agh.qtictactoe.model.GameSquare.SELECTED_0;
+import static pl.edu.agh.qtictactoe.model.GameSquare.SELECTED_NONE;
+import static pl.edu.agh.qtictactoe.model.UnderlinedInteger.EMPTY;
 
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     private List<GameSquare> dataset;
@@ -33,11 +34,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public GridLayout gridLayout;
+        public TextView selectedTextView;
         public List<TextView> textViews = new ArrayList<>();
         public WeakReference<SquareClickInterface> interfaceRef;
 
         public ViewHolder(View v, SquareClickInterface squareClickInterface) {
             super(v);
+            gridLayout = v.findViewById(R.id.gameGridLayout);
+            selectedTextView = v.findViewById(R.id.selectedTextView);
             textViews.add(v.findViewById(R.id.textView1));
             textViews.add(v.findViewById(R.id.textView2));
             textViews.add(v.findViewById(R.id.textView3));
@@ -73,29 +78,33 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String strFormat;
-        List<UnderlinedInteger> dataSet = dataset.get(position).getDataset();
-        for (int i = 0; i < 9; i++) {
-            TextView textView = holder.textViews.get(i);
-            UnderlinedInteger underlinedInteger = dataSet.get(i);
-            int value = underlinedInteger.getValue();
-            if (value == EMPTY) {
-                textView.setVisibility(View.INVISIBLE);
-                continue;
+        GameSquare square = dataset.get(position);
+        if (square.getSelection() != SELECTED_NONE) {
+            holder.selectedTextView.setVisibility(View.VISIBLE);
+            if (square.getSelection() == SELECTED_0) {
+                holder.selectedTextView.setText("O");
+                holder.selectedTextView.setTextColor(Color.parseColor("#00FF00"));
+            } else {
+                holder.selectedTextView.setText("X");
+                holder.selectedTextView.setTextColor(Color.parseColor("#FF0000"));
             }
-            textView.setVisibility(View.VISIBLE);
-            if (value == SELECTED_X) {
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                textView.setTextColor(Color.parseColor("#00FF00"));
-                textView.setText("X");
-            } else if (value == SELECTED_0) {
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                textView.setTextColor(Color.parseColor("#00FF00"));
-                textView.setText("O");
-            }
-            else {
+            holder.gridLayout.setVisibility(View.INVISIBLE);
+        } else {
+            holder.selectedTextView.setVisibility(View.GONE);
+            holder.gridLayout.setVisibility(View.VISIBLE);
+            List<UnderlinedInteger> dataSet = dataset.get(position).getDataset();
+            for (int i = 0; i < 9; i++) {
+                TextView textView = holder.textViews.get(i);
+                UnderlinedInteger underlinedInteger = dataSet.get(i);
+                int value = underlinedInteger.getValue();
+                if (value == EMPTY) {
+                    textView.setVisibility(View.INVISIBLE);
+                    continue;
+                }
+                textView.setVisibility(View.VISIBLE);
                 if (underlinedInteger.isUnderlined()) {
                     textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    textView.setTextColor(Color.parseColor("#FF0000"));
+                    textView.setTextColor(Color.parseColor("#0000FF"));
                 } else {
                     textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                     textView.setTextColor(Color.parseColor("#000000"));

@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/square_bg"
+    android:layout_height="wrap_content">
+
+    <GridLayout
     android:id="@+id/gameGridLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/square_bg"
     android:columnCount="3"
     android:rowCount="3"
-    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
     app:layout_constraintDimensionRatio="h,1:1"
 
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".GameActivity">
+
+
 
     <TextView
         android:id="@+id/textView1"
@@ -82,3 +88,16 @@
         android:text="x" />
 
 </GridLayout>
+
+    <TextView
+        android:id="@+id/selectedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/gameGridLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/gameGridLayout"
+        app:layout_constraintTop_toTopOf="@+id/gameGridLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
