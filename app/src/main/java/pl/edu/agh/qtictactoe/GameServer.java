@@ -60,10 +60,15 @@ public class GameServer {
                             .collect(Collectors.toList()).get(0);
                     sendToTCP(sendTo.getID(), o);
 
+                    if (roundNumber % 2 == 0) { // O
+                        gameLogic.getActualGameState().getMovesO().add(move);
+                    } else { // X
+                        gameLogic.getActualGameState().getMovesX().add(move);
+                    }
                     boolean isQuantumLoop = gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber());
                     if (isQuantumLoop) {
                         lastMove = move;
-                        Network.ResolveConflict resolveConflict =  new Network.ResolveConflict();
+                        Network.ResolveConflict resolveConflict = new Network.ResolveConflict();
                         resolveConflict.setCounter(move.getNumber());
                         resolveConflict.setCell1(move.getCell1());
                         resolveConflict.setCell2(move.getCell2());
@@ -74,7 +79,6 @@ public class GameServer {
                         yourTurn.setTurnNumber(roundNumber);
                         sendToTCP(sendTo.getID(), yourTurn);
                     }
-
                 } else if (o instanceof Network.SelectedCell) {
                     Connection nextPlayer = connection.getID() == players.get(0).getID() ? players.get(1) : players.get(0);
 
@@ -82,9 +86,10 @@ public class GameServer {
                     gameLogic.resolveQuantumLoop(lastMove, selectedCell.getSelectedCell());
                     int[] selectedX = gameLogic.getActualGameState().getSelectedX().stream().mapToInt(i -> i).toArray();
                     int[] selectedO = gameLogic.getActualGameState().getSelectedO().stream().mapToInt(i -> i).toArray();
-                    Network.ConflictSolution conflictSolution = new Network.ConflictSolution(selectedX, selectedO);
-                    sendToTCP(players.get(0).getID(), conflictSolution);
-                    sendToTCP(players.get(1).getID(), conflictSolution);
+                    Network.ConflictSolution conflictSolution = new Network.ConflictSolution();
+                    conflictSolution.setSelectedX(selectedX);
+                    conflictSolution.setSelectedY(selectedO);
+                    sendTCP(conflictSolution);
 
                     Winner winner = gameLogic.whoWins();
                     if (winner.equals(Winner.O_WINS)) {
@@ -94,8 +99,7 @@ public class GameServer {
                         sendToTCP(players.get(0).getID(), new Network.YouLoose());
                         sendToTCP(players.get(1).getID(), new Network.YouWin());
                     } else if (winner.equals(Winner.DRAW)) {
-                        sendToTCP(players.get(0).getID(), new Network.Draw());
-                        sendToTCP(players.get(0).getID(), new Network.Draw());
+                        sendTCP(new Network.Draw());
                     } else if (winner.equals(Winner.NOBODY)) {
                         Network.YourTurn yourTurn = new Network.YourTurn();
                         yourTurn.setTurnNumber(roundNumber);

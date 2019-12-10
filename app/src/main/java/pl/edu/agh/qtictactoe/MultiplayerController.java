@@ -1,6 +1,7 @@
 package pl.edu.agh.qtictactoe;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -13,6 +14,7 @@ import pl.edu.agh.qtictactoe.network.Network;
 
 public class MultiplayerController extends BaseController {
     private Client client;
+    private boolean amIX;
 
     public MultiplayerController(String ip) {
         client = new Client();
@@ -46,21 +48,22 @@ public class MultiplayerController extends BaseController {
                     move.setNumber(resolveConflict.getCounter());
                     move.setCell1(resolveConflict.getCell1());
                     move.setCell2(resolveConflict.getCell2());
+
                     gameActivityInterface.solveLoop(move);
                 }
                 if (o instanceof Network.YouLoose) {
-                    gameActivityInterface.onWin(false, false);
+                    gameActivityInterface.onWin(!amIX);
 
                 }
                 if (o instanceof Network.YouWin) {
-                    gameActivityInterface.onWin(true, false);
+                    gameActivityInterface.onWin(amIX);
 
                 }
                 if (o instanceof Network.Draw) {
                     gameActivityInterface.onDraw();
-
                 }
                 if (o instanceof Network.YourTurn) {
+                    amIX = ((Network.YourTurn) o).getTurnNumber() % 2 == 1;
                     gameActivityInterface.yourTurn(((Network.YourTurn) o).getTurnNumber());
                 }
                 if (o instanceof Network.ConflictSolution) {
@@ -89,7 +92,15 @@ public class MultiplayerController extends BaseController {
 
     @Override
     public void onLoopSolved(int position) {
-
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Network.SelectedCell selectedCell = new Network.SelectedCell();
+                selectedCell.setSelectedCell(position);
+                client.sendTCP(selectedCell);
+                return null;
+            }
+        }.execute();
     }
 
     @Override

@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +66,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
                 controller = new MultiplayerController(hostIp);
         }
         if (controller == null) {
+            shouldMove = true;
             controller = new SingleplayerController();
             startGame();
         }
@@ -131,10 +134,8 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
             movesLeft--;
             if (movesLeft == 0) {
                 Move move = new Move(moveCounter, selectedCells.get(0), selectedCells.get(1));
-                recyclerView.setEnabled(false);
-                recyclerView.setClickable(false);
-                controller.onMove(move);
                 shouldMove = false;
+                controller.onMove(move);
             }
         }
     }
@@ -144,6 +145,10 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     public void updateGame(GameState gameState) {
         List<Integer> xList = gameState.getSelectedX();
         List<Integer> oList = gameState.getSelectedO();
+        updateUIOnResolvedConflict(xList, oList);
+    }
+
+    private void updateUIOnResolvedConflict(List<Integer> xList, List<Integer> oList) {
         for (Integer cell : xList) {
             gameSquares.get(cell).setSelection(SELECTED_X);
             gameAdapter.notifyItemChanged(cell);
@@ -152,7 +157,6 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
             gameSquares.get(cell).setSelection(SELECTED_0);
             gameAdapter.notifyItemChanged(cell);
         }
-
     }
 
     @Override
@@ -172,17 +176,22 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         GameSquare gameSquare2 = gameSquares.get(move.getCell2());
         gameSquare1.getDataset().get(moveCounter).setUnderlined(true);
         gameSquare2.getDataset().get(moveCounter).setUnderlined(true);
-        gameAdapter.notifyItemChanged(move.getCell1());
-        gameAdapter.notifyItemChanged(move.getCell2());
+        recyclerView.post(() -> {
+            gameAdapter.notifyItemChanged(move.getCell1());
+            gameAdapter.notifyItemChanged(move.getCell2());
+        });
+
         loopMove = move;
         isSolvingLoop = true;
     }
 
     @Override
-    public void onWin(boolean hasWon, boolean isXWin) {
-        if (hasWon) {
-            showWinner(isXWin);
-        }
+    public void onWin(boolean isXWin) {
+        runOnUiThread(() -> {
+            String winnerText = isXWin ? "X WIN GAME" : "O WIN GAME";
+            winnerTextView.setText(winnerText);
+            winnerTextView.setVisibility(View.VISIBLE);
+        });
 //        Toast.makeText(this, hasWon ? "Won" : "Lost", Toast.LENGTH_SHORT).show();
 //        finish();
     }
@@ -199,20 +208,19 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void onDraw() {
-        winnerTextView.setText("DRAW");
-        winnerTextView.setVisibility(View.VISIBLE);
+        runOnUiThread(() -> {
+            winnerTextView.setText("DRAW");
+            winnerTextView.setVisibility(View.VISIBLE);
+        });
+
 //        finish();
     }
 
     @Override
     public void onResolvedConflict(int[] x, int[] y) {
+        updateUIOnResolvedConflict(Arrays.stream(x).boxed().collect(Collectors.toList()),Arrays.stream(y).boxed().collect(Collectors.toList()));
 //        Toast.makeText(this, "Resolved", Toast.LENGTH_SHORT).show();
     }
 
-    private void showWinner(boolean isXWin) {
-        String winnerText = isXWin ? "X WIN GAME" : "O WIN GAME";
-        winnerTextView.setText(winnerText);
-        winnerTextView.setVisibility(View.VISIBLE);
-    }
 
 }

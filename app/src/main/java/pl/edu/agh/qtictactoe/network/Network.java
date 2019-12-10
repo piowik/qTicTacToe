@@ -14,8 +14,11 @@ public class Network {
         kryo.register(YourTurn.class);
         kryo.register(ResolveConflict.class);
         kryo.register(YouLoose.class);
+        kryo.register(YouWin.class);
+        kryo.register(Draw.class);
         kryo.register(StartGame.class);
         kryo.register(SelectedCell.class);
+        kryo.register(int[].class);
         kryo.register(ConflictSolution.class);
     }
 
@@ -100,9 +103,7 @@ public class Network {
         int[] selectedX;
         int[] selectedY;
 
-        public ConflictSolution(int[] selectedX, int[] selectedY) {
-            this.selectedX = selectedX;
-            this.selectedY = selectedY;
+        public ConflictSolution() {
         }
 
         public int[] getSelectedX() {
@@ -112,5 +113,14 @@ public class Network {
         public int[] getSelectedY() {
             return selectedY;
         }
+
+        public void setSelectedX(int[] selectedX) {
+            this.selectedX = selectedX;
+        }
+
+        public void setSelectedY(int[] selectedY) {
+            this.selectedY = selectedY;
+        }
     }
+
 }

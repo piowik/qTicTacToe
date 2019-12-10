@@ -24,9 +24,9 @@ public class SingleplayerController extends BaseController {
         } else if (winner.equals(Winner.NOBODY)) {
             gameActivityInterface.yourTurn(moveCounter);
         } else if (winner.equals(Winner.X_WINS)) {
-            gameActivityInterface.onWin(true, true);
+            gameActivityInterface.onWin(true);
         } else if (winner.equals(Winner.O_WINS)) {
-            gameActivityInterface.onWin(true, false);
+            gameActivityInterface.onWin(false);
         }
     }
 
