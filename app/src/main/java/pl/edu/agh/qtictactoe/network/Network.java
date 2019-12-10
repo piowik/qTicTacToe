@@ -22,7 +22,10 @@ public class Network {
     static public class YourTurn {
         int turnNumber;
 
-        public YourTurn(int turnNumber) {
+        public YourTurn() {
+        }
+
+        public void setTurnNumber(int turnNumber) {
             this.turnNumber = turnNumber;
         }
 
@@ -32,7 +35,36 @@ public class Network {
     }
 
     static public class ResolveConflict {
+        int counter;
+        int cell1;
+        int cell2;
 
+        public ResolveConflict() {
+        }
+
+        public int getCounter() {
+            return counter;
+        }
+
+        public void setCounter(int counter) {
+            this.counter = counter;
+        }
+
+        public int getCell1() {
+            return cell1;
+        }
+
+        public void setCell1(int cell1) {
+            this.cell1 = cell1;
+        }
+
+        public int getCell2() {
+            return cell2;
+        }
+
+        public void setCell2(int cell2) {
+            this.cell2 = cell2;
+        }
     }
 
     static public class YouLoose {

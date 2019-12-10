@@ -21,6 +21,7 @@ public class GameServer {
     private GameLogic gameLogic = new GameLogic(new GameState());
     private ArrayList<PlayerConnection> players = new ArrayList<>();
     Move lastMove = new Move();
+    int roundNumber = 0;
 
     public GameServer(ServerStartedInterface startedInterface) {
         server = new Server() {
@@ -33,7 +34,12 @@ public class GameServer {
             @Override
             public void connected(Connection connection) {
                 players.add((PlayerConnection) connection);
-                sendTCP(new Network.StartGame());
+                if (players.size() == 2) {
+                    sendTCP(new Network.StartGame());
+                    Network.YourTurn yourTurn = new Network.YourTurn();
+                    yourTurn.setTurnNumber(roundNumber);
+                    sendToTCP(players.get(0).getID(), yourTurn);
+                }
                 super.connected(connection);
             }
 
@@ -57,9 +63,16 @@ public class GameServer {
                     boolean isQuantumLoop = gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber());
                     if (isQuantumLoop) {
                         lastMove = move;
-                        sendToTCP(sendTo.getID(), new Network.ResolveConflict());
+                        Network.ResolveConflict resolveConflict =  new Network.ResolveConflict();
+                        resolveConflict.setCounter(move.getNumber());
+                        resolveConflict.setCell1(move.getCell1());
+                        resolveConflict.setCell2(move.getCell2());
+                        sendToTCP(sendTo.getID(), resolveConflict);
                     } else {
-                        sendToTCP(sendTo.getID(), new Network.YourTurn(gameLogic.getActualGameState().getRoundNumber()+1));
+                        roundNumber++;
+                        Network.YourTurn yourTurn = new Network.YourTurn();
+                        yourTurn.setTurnNumber(roundNumber);
+                        sendToTCP(sendTo.getID(), yourTurn);
                     }
 
                 } else if (o instanceof Network.SelectedCell) {
@@ -84,7 +97,9 @@ public class GameServer {
                         sendToTCP(players.get(0).getID(), new Network.Draw());
                         sendToTCP(players.get(0).getID(), new Network.Draw());
                     } else if (winner.equals(Winner.NOBODY)) {
-                        sendToTCP(nextPlayer.getID(), new Network.YourTurn(gameLogic.getActualGameState().getRoundNumber()));
+                        Network.YourTurn yourTurn = new Network.YourTurn();
+                        yourTurn.setTurnNumber(roundNumber);
+                        sendToTCP(nextPlayer.getID(), yourTurn);
                     }
 
                 }

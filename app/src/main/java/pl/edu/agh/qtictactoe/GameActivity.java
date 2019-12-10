@@ -35,11 +35,18 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    @BindView(R.id.waitingText)
+    TextView waitingText;
+
+    @BindView(R.id.winner)
+    TextView winnerTextView;
+
     private int moveCounter;
     private int movesLeft;
     private ArrayList<Integer> selectedCells = new ArrayList<>();
     private boolean isSolvingLoop;
     private Move loopMove;
+    private boolean shouldMove = false;
 
 
     @Override
@@ -52,13 +59,14 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
         if (getIntent().getExtras() != null) {
             String hostIp = getIntent().getExtras().getString("ip", null);
+            waitingText.setVisibility(View.VISIBLE);
             if (hostIp != null)
                 controller = new MultiplayerController(hostIp);
         }
-        if (controller == null)
+        if (controller == null) {
             controller = new SingleplayerController();
-
-        startGame();
+            startGame();
+        }
         controller.attach(this);
     }
 
@@ -77,7 +85,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void startGame() {
-        findViewById(R.id.waitingText).setVisibility(View.INVISIBLE);
+        waitingText.setVisibility(View.INVISIBLE);
         //TODO setClickable
     }
 
@@ -105,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     }
 
     private void selectedSquare(int position) {
-        if (moveCounter == 10) // crashes when moveCounter == 10 (win/draw condition will be met until then, so just a sanity check)
+        if (moveCounter == 10 || (!shouldMove && !isSolvingLoop))
             return;
         if (isSolvingLoop) {
             if (position != loopMove.getCell1() && position != loopMove.getCell2()) {
@@ -126,6 +134,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
                 recyclerView.setEnabled(false);
                 recyclerView.setClickable(false);
                 controller.onMove(move);
+                shouldMove = false;
             }
         }
     }
@@ -151,9 +160,8 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
         moveCounter = turnNumber;
         selectedCells.clear();
         movesLeft = 2;
-        recyclerView.setEnabled(true);
-        recyclerView.setClickable(true);
         isSolvingLoop = false;
+        shouldMove = true;
         // TODO: display some info O/X's turn?
     }
 
@@ -181,15 +189,18 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
 
     @Override
     public void onMove(Move move) {
-//        Toast.makeText(this, "Moved", Toast.LENGTH_SHORT).show();
-        //TODO
+        List<UnderlinedInteger> dataSet = gameSquares.get(move.getCell1()).getDataset();
+        dataSet.set(move.getNumber(), new UnderlinedInteger(move.getNumber(), false, false));
+        gameAdapter.notifyItemChanged(move.getCell1());
+        List<UnderlinedInteger> dataSet2 = gameSquares.get(move.getCell2()).getDataset();
+        dataSet2.set(move.getNumber(), new UnderlinedInteger(move.getNumber(), false, false));
+        gameAdapter.notifyItemChanged(move.getCell2());
     }
 
     @Override
     public void onDraw() {
-        TextView textView = findViewById(R.id.winner);
-        textView.setText("DRAW");
-        textView.setVisibility(View.VISIBLE);
+        winnerTextView.setText("DRAW");
+        winnerTextView.setVisibility(View.VISIBLE);
 //        finish();
     }
 
@@ -199,10 +210,9 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
     }
 
     private void showWinner(boolean isXWin) {
-        TextView textView = findViewById(R.id.winner);
         String winnerText = isXWin ? "X WIN GAME" : "O WIN GAME";
-        textView.setText(winnerText);
-        textView.setVisibility(View.VISIBLE);
+        winnerTextView.setText(winnerText);
+        winnerTextView.setVisibility(View.VISIBLE);
     }
 
 }

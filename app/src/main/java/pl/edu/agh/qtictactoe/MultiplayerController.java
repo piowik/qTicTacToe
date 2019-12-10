@@ -39,7 +39,14 @@ public class MultiplayerController extends BaseController {
                 if (o instanceof Move) {
                     Move move = (Move) o;
                     gameActivityInterface.onMove(move);
-
+                }
+                if (o instanceof Network.ResolveConflict) {
+                    Network.ResolveConflict resolveConflict = (Network.ResolveConflict) o;
+                    Move move = new Move();
+                    move.setNumber(resolveConflict.getCounter());
+                    move.setCell1(resolveConflict.getCell1());
+                    move.setCell2(resolveConflict.getCell2());
+                    gameActivityInterface.solveLoop(move);
                 }
                 if (o instanceof Network.YouLoose) {
                     gameActivityInterface.onWin(false, false);

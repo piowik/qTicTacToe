@@ -14,7 +14,6 @@ public class GameState implements Serializable {
     private List<Integer> selectedO = new ArrayList<>();
     private List<Move> movesX = new ArrayList<>();
     private List<Move> movesO = new ArrayList<>();
-    private Integer roundNumber;
     private boolean hasConflict;
     private boolean isFinished;
     private boolean isXTurn;
