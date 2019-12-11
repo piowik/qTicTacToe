@@ -66,6 +66,7 @@ public class GameServer {
                         gameLogic.getActualGameState().getMovesX().add(move);
                     }
                     boolean isQuantumLoop = gameLogic.isQuantumLoop(move.getCell1(), move, move.getNumber());
+                    roundNumber++;
                     if (isQuantumLoop) {
                         lastMove = move;
                         Network.ResolveConflict resolveConflict = new Network.ResolveConflict();
@@ -74,13 +75,11 @@ public class GameServer {
                         resolveConflict.setCell2(move.getCell2());
                         sendToTCP(sendTo.getID(), resolveConflict);
                     } else {
-                        roundNumber++;
                         Network.YourTurn yourTurn = new Network.YourTurn();
                         yourTurn.setTurnNumber(roundNumber);
                         sendToTCP(sendTo.getID(), yourTurn);
                     }
                 } else if (o instanceof Network.SelectedCell) {
-                    Connection nextPlayer = connection.getID() == players.get(0).getID() ? players.get(1) : players.get(0);
 
                     Network.SelectedCell selectedCell = (Network.SelectedCell) o;
                     gameLogic.resolveQuantumLoop(lastMove, selectedCell.getSelectedCell());
@@ -103,7 +102,7 @@ public class GameServer {
                     } else if (winner.equals(Winner.NOBODY)) {
                         Network.YourTurn yourTurn = new Network.YourTurn();
                         yourTurn.setTurnNumber(roundNumber);
-                        sendToTCP(nextPlayer.getID(), yourTurn);
+                        sendToTCP(connection.getID(), yourTurn);
                     }
 
                 }
