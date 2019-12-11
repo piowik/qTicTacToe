@@ -28,6 +28,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:layout_margin="3dp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:id="@+id/buttonHost"
             android:textColor="@color/colorPrimaryDark"
@@ -38,6 +39,7 @@
             android:text="HOST" />
 
         <Button
+            android:layout_margin="3dp"
             android:id="@+id/buttonJoin"
             android:layout_width="0dp"
             android:textColor="@color/colorPrimaryDark"
