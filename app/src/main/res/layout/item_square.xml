@@ -7,9 +7,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/square_bg"
+
     android:layout_height="wrap_content">
 
     <GridLayout
+        android:background="#00000000"
     android:id="@+id/gameGridLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

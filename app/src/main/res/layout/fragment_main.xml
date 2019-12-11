@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:layout_width="match_parent"
+    android:background="@drawable/main_selector"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -13,22 +14,22 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:layout_weight="5"
             android:contentDescription="@string/app_name"
-            android:padding="20dp"
+            android:padding="2dp"
             android:src="@drawable/quantum_logo_v2" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="4dp"
             android:layout_weight="2"
             android:gravity="center"
             android:text="@string/app_name"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
-            android:textSize="60sp" />
+            android:textColor="@color/colorWhite"
+            android:textSize="48sp" />
 
     </LinearLayout>
 
@@ -45,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:clickable="true"
             android:enabled="true"
             android:focusable="true"
@@ -58,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:clickable="true"
             android:enabled="true"
             android:focusable="true"

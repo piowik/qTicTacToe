@@ -83,7 +83,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             holder.selectedTextView.setVisibility(View.VISIBLE);
             if (square.getSelection() == SELECTED_0) {
                 holder.selectedTextView.setText("O");
-                holder.selectedTextView.setTextColor(Color.parseColor("#00FF00"));
+                holder.selectedTextView.setTextColor(Color.parseColor("#2196F3"));
             } else {
                 holder.selectedTextView.setText("X");
                 holder.selectedTextView.setTextColor(Color.parseColor("#FF0000"));

@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/listview_background_shape">
     <stroke
         android:width="2dp"
-        android:color="#1BB930" />
-    <solid android:color="#ffffff" />
+        android:color="#000000" />
+    <solid android:drawable="@drawable/main_selector" />
 </shape>

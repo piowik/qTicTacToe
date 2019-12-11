@@ -84,6 +84,7 @@ public class NewMultiplayerGameFragment extends Fragment {
                 return null;
             }
         }.execute();
+        setRetainInstance(true);
 //        ButterKnife.bind(getContext());
 
         textViewIp.setText(getIpAddress(true));

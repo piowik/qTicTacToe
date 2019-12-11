@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@drawable/main_selector"
     android:orientation="vertical">
 
     <ImageView
@@ -21,7 +22,7 @@
         android:gravity="center"
         android:textSize="60sp"
         android:layout_margin="20dp"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/singleplayer_button"
@@ -30,14 +31,14 @@
         android:layout_height="0dp"
         android:text="@string/singleplayer"
         android:textSize="20sp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="0dp"
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/multiplayer_button"
@@ -46,12 +47,12 @@
         android:layout_height="0dp"
         android:text="@string/multiplayer"
         android:textSize="20sp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:padding="20dp"
         android:layout_margin="20dp"
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorPrimaryDark" />
 
 </LinearLayout>

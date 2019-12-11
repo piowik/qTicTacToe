@@ -1,10 +1,8 @@
 package pl.edu.agh.qtictactoe.database.dao;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,9 +17,4 @@ public interface IPDao {
     @Query("SELECT * FROM ipAddTable")
     List<IPAdd> fetchAll();
 
-    @Update
-    void updateMovie(IPAdd ipAdd);
-
-    @Delete
-    void deleteMovie(IPAdd ipAdd);
 }

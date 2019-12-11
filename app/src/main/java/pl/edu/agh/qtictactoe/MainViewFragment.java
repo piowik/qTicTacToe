@@ -35,6 +35,9 @@ public class MainViewFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
+        setRetainInstance(true);
         return rootView;
     }
+
+
 }
