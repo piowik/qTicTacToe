@@ -5,4 +5,5 @@
     <string name="x">X</string>
     <string name="o">O</string>
     <string name="waiting">Waiting for second player</string>
+    <string name="wrong_loop_solution">Invalid loop solution</string>
 </resources>

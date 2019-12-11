@@ -120,7 +120,7 @@ public class GameActivity extends AppCompatActivity implements SquareClickInterf
             return;
         if (isSolvingLoop) {
             if (position != loopMove.getCell1() && position != loopMove.getCell2()) {
-                Toast.makeText(this, "Invalid loop solution", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.wrong_loop_solution), Toast.LENGTH_SHORT).show();
                 return;
             }
             controller.onLoopSolved(position);
