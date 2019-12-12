@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">QTicTacToe</string>
+    <string name="singleplayer">Singleplayer</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="x">X</string>
+    <string name="o">O</string>
+    <string name="waiting">Waiting for second player</string>
+    <string name="wrong_loop_solution">Invalid loop solution</string>
 </resources>
